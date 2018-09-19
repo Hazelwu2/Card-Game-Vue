@@ -1,0 +1,76 @@
+@mixin size($w,$h:$w)
+  width: $w
+  height: $h
+@mixin setLeftPos($l,$w)
+  left: calc(#{$l} - #{$w/2})
+@mixin flexCenter
+  display: flex
+  justify-content: center
+  align-items: center
+$cardWidth: 15vw
+html,body
+  background-color: #102438
+  color: white
+  +flexCenter
+.cards
+  +size(100%,40vh)
+  cursor: pointer
+  .card
+    box-shadow: 0px 10px 30px rgba(black,0.2)
+    +size($cardWidth,$cardWidth*1.4)
+    position: absolute
+    transform: rotate(0deg)
+    transition: left 0.5s,top 0.5s, transform 1s
+    transform-style: preserve-3d
+    top: 35%
+    .face
+      backface-visibility: hidden
+      position: absolute
+      background-color: white
+      +size(100%)
+      left: 0
+      top: 0
+      border-radius: 5px
+      overflow: hidden
+      
+      &.front
+        transform: rotateY(180deg)
+        +flexCenter
+        font-size: 60px
+        color: black
+
+      &.back
+        box-sizing: border-box
+        padding: 10px
+        $colorRed: #ed4747
+        &:before
+          content: ''
+          display: block
+          +size(100%)
+          border: solid 3px $colorRed
+          box-sizing: border-box
+          background-color: white
+          background-image: linear-gradient(-60deg,transparent 40%,rgba($colorRed,1) 40%,rgba($colorRed,1) 60%,transparent 60%), linear-gradient(60deg,transparent 40%,rgba($colorRed,1) 40%,rgba($colorRed,1) 60%,transparent 60%)
+          background-size: 8px 8px
+
+    &.open
+      transform: rotate(0deg) rotateY(180deg)
+    
+    @for $i from 1 through 4
+      &[data-order="#{$i}"]
+        +setLeftPos( #{20%*$i},$cardWidth)
+
+    &:hover
+      top: 30%
+    
+  &.gather
+    .card
+      top: 20%
+      +setLeftPos(50%,$cardWidth)
+      transform: rotate(360deg)
+    &:hover
+      @for $i from 1 through 4
+        .card[data-order="#{$i}"]
+          transform: rotate(#{7*$i + 350}deg)
+
+

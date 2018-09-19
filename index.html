@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>猜測撲克牌花色 | Vue.js</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="control">
+        <input type="checkbox" v-model="gather"/>
+        <input type="checkbox" v-model="card.open" v-for="(card, cid) in cards"/>
+        <button @click="shuffle">洗牌</button>
+        <button @click="startGame">開始遊戲</button>
+      </div>
+      <h2>{{state}}</h2>
+      <div class="cards" :class="{gather: gather}">
+        <div class="card" v-for="card in cards" :data-order="card.id" :class="{open: card.open}" @click="openCard(card)">
+          <div class="face back"></div>
+          <div class="face front">{{ getSymbol(card.label) }}</div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
